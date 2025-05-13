@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { NextResponse } from 'next/server'
+
 type StatusType = 'success' | 'fail' | 'error'
 
 export const createResponse = (
@@ -8,16 +10,14 @@ export const createResponse = (
     data: any = null,
     statusCode: number = 200
 ) => {
-    return new Response(
-        JSON.stringify({
+    const res = NextResponse.json(
+        {
             status,
             message,
             data,
             timestamp: new Date().toISOString(),
-        }),
-        {
-            status: statusCode,
-            headers: { 'Content-Type': 'application/json' },
-        }
+        },
+        { status: statusCode }
     )
+    return res
 }

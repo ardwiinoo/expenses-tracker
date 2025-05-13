@@ -16,12 +16,12 @@ export default function SignForm() {
     const [loading, error, , request] = useApi()
 
     const handleSendCode = async () => {
-        const data = await request('/api/auth/send-code', {
+        await request('/api/auth/send-code', {
             method: 'POST',
             data: { email },
         })
 
-        set_step(data?.isActive ? 'login-password' : 'code')
+        set_step('code')
     }
 
     const handleVerifyCode = async () => {
@@ -30,7 +30,16 @@ export default function SignForm() {
             data: { email, code },
         })
 
-        set_step('set-password')
+        const res = await request('/api/auth/check-user', {
+            method: 'POST',
+            data: { email },
+        })
+
+        if (res?.data?.isActive) {
+            set_step('login-password')
+        } else {
+            set_step('set-password')
+        }
     }
 
     const handleSetPassword = async () => {
@@ -49,12 +58,14 @@ export default function SignForm() {
     }
 
     const handleLogin = async () => {
-        await request('/api/auth/login', {
+        const res = await request('/api/auth/login', {
             method: 'POST',
             data: { email, password },
         })
 
-        window.location.href = '/'
+        if (res?.status === 'success') {
+            window.location.href = '/dashboard'
+        }
     }
 
     const stepsUI = {
@@ -142,7 +153,8 @@ export default function SignForm() {
 
     return (
         <div className="max-w-md mx-auto p-4">
-            <h1 className="text-xl font-semibold mb-4">Login</h1>
+            <h1 className="text-3xl font-bold mb-2">Expenses Tracker App</h1>
+            <p className="text mb-10">Welcome! Few steps to get you started.</p>
             {error && <p className="text-red-500 mb-2">{error}</p>}
             {stepsUI[step]}
         </div>

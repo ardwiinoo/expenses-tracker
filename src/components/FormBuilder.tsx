@@ -35,7 +35,7 @@ export default function FormBuilder({
         >
             {fields.map((field) => (
                 <div key={field.name}>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="block text-sm font-medium mb-3">
                         {field.label}
                     </label>
                     <input
@@ -45,13 +45,13 @@ export default function FormBuilder({
                         onChange={field.onChange}
                         placeholder={field.placeholder}
                         disabled={field.disabled}
-                        className="input input-bordered w-full"
+                        className="mb-2 w-full h-12 rounded-md p-3 border border-gray-600 focus:border-[#DFD0B8] focus:ring-[#DFD0B8] bg-[#222831] text-[#DFD0B8] placeholder:text-gray-400 disabled:opacity-50"
                     />
                 </div>
             ))}
             <button
                 type="submit"
-                className="btn btn-primary w-full"
+                className="btn btn-primary w-full cursor-pointer bg-[#DFD0B8] text-[#222831] h-12 rounded-md font-medium hover:bg-[#948979]"
                 disabled={loading}
             >
                 {loading ? 'Processing...' : submitLabel}

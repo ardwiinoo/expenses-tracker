@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import axios, { AxiosRequestConfig } from 'axios'
 import { useCallback, useState } from 'react'
+import type { AxiosRequestConfig } from 'axios'
+import http from '@/lib/http'
 
 export function useApi<T = any>() {
     const [loading, set_loading] = useState(false)
@@ -14,7 +15,7 @@ export function useApi<T = any>() {
             set_loading(true)
 
             try {
-                const response = await axios(url, config)
+                const response = await http(url, config)
                 set_data(response.data)
                 return response.data
             } catch (err: any) {

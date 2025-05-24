@@ -12,6 +12,11 @@ export const signToken = (
     return jwt.sign(payload, JWT_SECRET, options)
 }
 
-export const verifyToken = (token: string): JWTPayload => {
-    return jwt.verify(token, JWT_SECRET) as JWTPayload
+export const verifyToken = (token: string): JWTPayload | null => {
+    try {
+        return jwt.verify(token, JWT_SECRET) as JWTPayload
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+        return null
+    }
 }

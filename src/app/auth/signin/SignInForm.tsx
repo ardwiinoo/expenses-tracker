@@ -3,6 +3,7 @@
 import FormBuilder from '@/components/FormBuilder'
 import { useApi } from '@/hooks/useApi'
 import { useState } from 'react'
+import NProgress from 'nprogress'
 
 export default function SignForm() {
     const [step, set_step] = useState<
@@ -16,15 +17,18 @@ export default function SignForm() {
     const [loading, error, , request] = useApi()
 
     const handleSendCode = async () => {
+        NProgress.start()
         await request('/api/auth/send-code', {
             method: 'POST',
             data: { email },
         })
 
         set_step('code')
+        NProgress.done()
     }
 
     const handleVerifyCode = async () => {
+        NProgress.start()
         await request('/api/auth/verify-code', {
             method: 'POST',
             data: { email, code },
@@ -37,8 +41,10 @@ export default function SignForm() {
 
         if (res?.data?.isActive) {
             set_step('login-password')
+            NProgress.done()
         } else {
             set_step('set-password')
+            NProgress.done()
         }
     }
 
@@ -48,6 +54,7 @@ export default function SignForm() {
             return
         }
 
+        NProgress.start()
         await request('/api/auth/set-password', {
             method: 'POST',
             data: { email, password },
@@ -55,9 +62,11 @@ export default function SignForm() {
 
         // Langsung login
         set_step('login-password')
+        NProgress.done()
     }
 
     const handleLogin = async () => {
+        NProgress.start()
         const res = await request('/api/auth/login', {
             method: 'POST',
             data: { email, password },
@@ -65,6 +74,7 @@ export default function SignForm() {
 
         if (res?.status === 'success') {
             window.location.href = '/dashboard'
+            NProgress.done()
         }
     }
 

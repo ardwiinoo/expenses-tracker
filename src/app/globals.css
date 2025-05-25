@@ -1,5 +1,21 @@
 @import 'tailwindcss';
 
 body {
-    @apply bg-[#222831] text-[#DFD0B8];
+    box-sizing: border-box;
+}
+
+.bg-cprimary {
+    @apply bg-[#222831];
+}
+
+.text-cprimary {
+    @apply text-[#DFD0B8];
+}
+
+/* NProgress style */
+@import 'nprogress/nprogress.css';
+
+#nprogress .bar {
+    background: #dfd0b8; /* Tailwind blue-500 */
+    height: 3px;
 }
